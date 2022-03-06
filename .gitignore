@@ -8,3 +8,6 @@
 
 # .pyc文件是.py文件编译后生成的字节码文件(byte code),类似Java的.class文件
 *.pyc
+
+# 比赛的数据文件(储存位置:百度网盘)
+*data
