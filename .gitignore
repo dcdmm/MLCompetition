@@ -10,6 +10,6 @@
 *.pyc
 
 # 中间保存的结果
-/新闻文本分类/intermediate_save_data/
+/天池-新闻文本分类/intermediate_save_data/
 # 比赛的数据文件(储存位置:百度网盘)
-/新闻文本分类/datasets/
+/天池-新闻文本分类/datasets/
