@@ -44,7 +44,7 @@ def MyLightGBM(X_train_data, y_train_data, X_test_data, kfold,
     test_predictions = np.zeros(
         X_test_data.shape[0] if num_class is None else [X_test_data.shape[0], num_class])  # 测试数据集预测结果
     model_list = list()  # k折交叉验证模型结果
-    for fold, (trn_ind, val_ind) in enumerate(kfold.split(X_train_data, y_train_data)):
+    for fold, (trn_ind, val_ind) in enumerate(kfold.split(X_train_data, y_train_data)):  # 分层k折交叉验证
         print(f'Training fold {fold + 1}')
         x_train, x_val = X_train_data[trn_ind], X_train_data[val_ind]
         y_train, y_val = y_train_data[trn_ind], y_train_data[val_ind]
@@ -68,6 +68,6 @@ def MyLightGBM(X_train_data, y_train_data, X_test_data, kfold,
                           callbacks=callbacks,
                           feval=feval)
         model_list.append(model)
-        test_predictions += model.predict(X_test_data) / kfold.n_splits
+        test_predictions += model.predict(X_test_data) / kfold.n_splits  # 所以评估模型的综合
 
     return test_predictions, model_list
