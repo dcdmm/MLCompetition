@@ -23,7 +23,7 @@ class TextCNN(nn.Module):
 
     def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels, dropout=0.5):
         super(TextCNN, self).__init__()
-        self.embedding = nn.Embedding(vocab_size, embed_size)
+        self.embedding = nn.Embedding(vocab_size, embed_size, padding_idx=0)
         # 预训练的词嵌入层
         self.constant_embedding = nn.Embedding(vocab_size, embed_size)
         self.dropout = nn.Dropout(p=dropout)
