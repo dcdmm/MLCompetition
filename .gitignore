@@ -9,7 +9,11 @@
 # .pyc文件是.py文件编译后生成的字节码文件(byte code),类似Java的.class文件
 *.pyc
 
-# 中间保存的结果
-/tianchi_NewsTextClassification/intermediate_save_data/
 # 比赛的数据文件(储存位置:百度网盘)
 /tianchi_NewsTextClassification/datasets/
+
+# 中间保存的结果
+/tianchi_NewsTextClassification/intermediate_save_data/
+
+# 模型运行结果
+/tianchi_NewsTextClassification/output/

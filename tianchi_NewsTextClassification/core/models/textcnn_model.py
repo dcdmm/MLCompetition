@@ -33,10 +33,10 @@ class TextCNN(nn.Module):
         self.relu = nn.ReLU()
         # 通过nn.ModuleList()创建多个⼀维卷积层
         self.convs = nn.ModuleList()
-        for out_channels, kernel_sizes in zip(num_channels, kernel_sizes):
+        for out_channels, kernel_size in zip(num_channels, kernel_sizes):
             self.convs.append(
                 # 两个嵌⼊的层连接,故in_channels=2 * embed_size
-                nn.Conv1d(in_channels=2 * embed_size, out_channels=out_channels, kernel_size=kernel_sizes))
+                nn.Conv1d(in_channels=2 * embed_size, out_channels=out_channels, kernel_size=kernel_size))
 
     def forward(self, inputs):
         # inputs.shape=(N, L);其实L表示序列长度
