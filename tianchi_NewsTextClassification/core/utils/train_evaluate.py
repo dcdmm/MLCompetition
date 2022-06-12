@@ -1,5 +1,6 @@
 import torch
 from collections import OrderedDict
+import torch.nn as nn
 
 
 class Trainer:
@@ -61,6 +62,12 @@ class Trainer:
             output = self.model(data)
             loss = self.criterion(output, target)
             loss.backward()  # 梯度计算
+
+            # 梯度裁剪
+            nn.utils.clip_grad_norm_(self.model.parameters(),
+                                     max_norm=3,  # 梯度的最大范数
+                                     norm_type=2)  # p范数的类型,inf表示无穷范
+
             self.optimizer.step()  # 执行一次优化步骤
 
             # 每verbose次输出一次中间结果 and 输出第一个批次的结果 and 输出所有数据时的结果

@@ -17,18 +17,17 @@ class TextCNN(nn.Module):
         不同卷积层卷积核的宽度;如kernel_sizes=(3, 4, 5)
     num_channels : tuple
         不同卷积层输出通道数;如num_channels=(100, 100, 100)
-    dropput : float
+    dropput_ratio : float
         dropout层p值
     """
 
-    def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels, dropout=0.5):
+    def __init__(self, vocab_size, embed_size, kernel_sizes, num_channels, dropout_ratio=0.5):
         super(TextCNN, self).__init__()
         self.embedding = nn.Embedding(vocab_size, embed_size, padding_idx=0)
         # 预训练的词嵌入层
         self.constant_embedding = nn.Embedding(vocab_size, embed_size)
-        self.dropout = nn.Dropout(p=dropout)
-        # 多分类问题
-        self.decoder = nn.Linear(sum(num_channels), 14)
+        self.dropout = nn.Dropout(p=dropout_ratio)
+        self.decoder = nn.Linear(sum(num_channels), 14)  # 多分类
         self.pool = nn.AdaptiveMaxPool1d(1)
         self.relu = nn.ReLU()
         # 通过nn.ModuleList()创建多个⼀维卷积层
@@ -52,6 +51,6 @@ class TextCNN(nn.Module):
         # encoding.shape=(N, output_channels1 + output_channels2 + output_channels3 + .......)
         encoding = torch.cat([torch.squeeze(self.relu(self.pool(conv(embeddings))), dim=-1) for conv in self.convs],
                              dim=1)
-        # outputs.shape=(N, 2)
+        # outputs.shape=(N, 14)
         outputs = self.decoder(self.dropout(encoding))
         return outputs
