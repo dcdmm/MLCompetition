@@ -116,7 +116,7 @@ class BertLastFour_MeanMaxPool(torch.nn.Module):
 
 # 损失函数
 criterion = torch.nn.CrossEntropyLoss()
-model = BertLastFour_MeanMaxPool(copy.deepcopy(pretrained))  # 须进行深拷贝(pretrained会参与梯度更新)
+model = BertLastFour_MeanMaxPool(copy.deepcopy(pretrained))  # 须进行深拷贝(pretrained(模型子网络结构)会参与梯度更新)
 model = model.to(device)  # 模型设备切换
 
 
