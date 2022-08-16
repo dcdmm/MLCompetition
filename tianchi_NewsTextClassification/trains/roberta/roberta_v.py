@@ -125,7 +125,7 @@ model = model.to(device)  # 模型设备切换
 def get_parameters(model,
                    encoder_layer_init_lr=2e-5,  # bert模型最后一个encoder结构的学习率
                    multiplier=0.95,  # 衰退因子
-                   classifier_lr=1e-4):  # 全连接层学习率
+                   custom_lr=1e-4):  # 自定义的网络层学习率
     parameters = []
     lr = encoder_layer_init_lr
 
@@ -139,15 +139,13 @@ def get_parameters(model,
         parameters.append(layer_params)
         lr *= multiplier  # 上个encoder结构的学习率 = 该encoder结构的学习率 * 衰退因子
 
-    # pooler层:bert模型最后一个encoder后接的全连接层(有些bert类模型不含此结构,如XLNet)
-    # linear层:自定义模型中定义的全连接层(具体任务对应修改)
-    classifier_params = {
-        'params': [param for name, param in model.named_parameters() if
-                   'fc' in name or 'head' in name or 'pooler' in name],
-        'lr': classifier_lr
+    # 自定义网络层:下游任务自定义的网络层(具体任务对应修改)
+    custom_params = {
+        'params': [param for name, param in model.named_parameters() if 'line1' in name or 'line2' in name],
+        'lr': custom_lr
     }
-    parameters.append(classifier_params)
-    return parameters
+    parameters.append(custom_params)
+    return parameters  # 这里bert模型的embedding层未加入优化器(即不参与梯度更新)
 
 
 parameters = get_parameters(model, 2e-5, 0.95, 1e-4)
