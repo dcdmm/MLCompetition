@@ -301,7 +301,7 @@ for fold, (trn_ind, val_ind) in enumerate(skfold.split(X_train_data, y_train)):
                               num_layers=num_layers,
                               dropout_ratio=dropout,
                               bidirectional=True)
-    net.embed.weight.data.copy_(pretrained_vector)  # 使用预训练词向量矩阵
+    net.embed.weight.data.copy_(pretrained_vector)  # 使用预训练词向量矩阵(pretrained_vector不会参与梯度更新))
     net = net.to(device)
 
     params_1x = [param for name, param in net.named_parameters() if name not in ["embed.weight"]]

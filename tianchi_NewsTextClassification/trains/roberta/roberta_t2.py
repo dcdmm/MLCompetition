@@ -1,4 +1,5 @@
 # %%
+import copy
 
 import torch.nn as nn
 import torch
@@ -17,7 +18,7 @@ import logging
 import joblib
 
 # Linux下添加此代码(即添加临时模块搜索路径);当前项目路径为默认模块搜索路径(仅pycharm中)
-sys.path.append(os.path.abspath(".." + os.sep + ".."))
+sys.path.append(os.path.abspath(".." + os.sep + ".." + os.sep + ".."))
 
 from tianchi_NewsTextClassification.data.roberta_data_precess import Dataset, get_collate_fn
 
@@ -115,7 +116,7 @@ class BertLastFour_MeanMaxPool(torch.nn.Module):
 
 # 损失函数
 criterion = torch.nn.CrossEntropyLoss()
-model = BertLastFour_MeanMaxPool(pretrained)
+model = BertLastFour_MeanMaxPool(copy.deepcopy(pretrained))  # 必须进行深拷贝(pretrained会参与梯度更新)
 model = model.to(device)  # 模型设备切换
 
 
@@ -140,7 +141,8 @@ def get_parameters(model,
 
     # 自定义网络层:下游任务自定义的网络层(具体任务对应修改)
     custom_params = {
-        'params': [param for name, param in model.named_parameters() if 'line1' in name or 'line2' in name],
+        'params': [param for name, param in model.named_parameters() if
+                   'linear1' in name or 'linear2' in name or 'norm' in name],
         'lr': custom_lr
     }
     parameters.append(custom_params)
