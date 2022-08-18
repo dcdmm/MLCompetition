@@ -1,3 +1,9 @@
-# 比赛
+## 比赛
 
-#### 新闻文本分类
+### didi_EstimatedTimeOfArrival
+
+### kaggle_CommonLitReadabilityPrize
+
+### kaggle_FeedbackPrize_EvaluatingStudentWriting
+
+#### tianchi_NewsTextClassification
