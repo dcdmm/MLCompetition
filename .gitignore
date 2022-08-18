@@ -11,8 +11,10 @@
 
 # 比赛的数据文件(储存位置:百度网盘)
 /tianchi_NewsTextClassification/datasets/
+/kaggle_CommonLitReadabilityPrize/datasets/
 
 # 天池新闻文本分类相关文件
 /tianchi_NewsTextClassification/trains/fasttext/train_fasttext.csv
 /tianchi_NewsTextClassification/data/csv_to_trainTxt/trainTxt_pretrain_model.txt
 /tianchi_NewsTextClassification/trains/PretrainedRoberta_base_HuggingFace/save_model/
+
