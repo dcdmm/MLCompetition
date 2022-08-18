@@ -12,6 +12,8 @@
 # 比赛的数据文件(储存位置:百度网盘)
 /tianchi_NewsTextClassification/datasets/
 /kaggle_CommonLitReadabilityPrize/datasets/
+### 部分处理后的数据
+/didi_EstimatedTimeOfArrival/datasets/
 
 # 天池新闻文本分类相关文件
 /tianchi_NewsTextClassification/trains/fasttext/train_fasttext.csv
@@ -26,3 +28,4 @@
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model1.bin
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model2.bin
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model4.bin
+
