@@ -18,3 +18,11 @@
 /tianchi_NewsTextClassification/data/csv_to_trainTxt/trainTxt_pretrain_model.txt
 /tianchi_NewsTextClassification/trains/PretrainedRoberta_base_HuggingFace/save_model/
 
+# kaggle CommonLitReadabilityPrize相关文件
+/kaggle_CommonLitReadabilityPrize/trains/继续训练预训练模型_albert-xxlarge-v2/save_model/
+/kaggle_CommonLitReadabilityPrize/trains/继续训练预训练模型_roberta-large/save_model/
+/kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model3.bin
+/kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model0.bin
+/kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model1.bin
+/kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model2.bin
+/kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model4.bin
