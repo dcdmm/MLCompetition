@@ -17,9 +17,9 @@ class Dataset(Data.Dataset):
         """定义索引方式"""
         text = self.dataset.iloc[i, :]['text']
         text_list = text.split()
-        if len(text_list) > 510:
-            # head+tail:empirically select the first 128 and the last 382 tokens.
-            text_list = text_list[:128] + text_list[-382:]
+        if len(text_list) > 512:  # roberta限制input_ids最大长度为514=512+2
+            # head+tail:empirically select the first 128 and the last 384 tokens.
+            text_list = text_list[:128] + text_list[-384:]
             text = ' '.join(text_list)
         if self.have_label:
             label = self.dataset.iloc[i, :]['label']
