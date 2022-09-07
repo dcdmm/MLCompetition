@@ -1,4 +1,4 @@
-test f1 score:0.9706
+test f1 score:0.9706(未添加FGM对抗训练)
 
 2022-08-08 10:30:28,375 - INFO - 49 - device:cuda 
 2022-08-08 10:35:43,525 - INFO - 208 - | step  1000 | loss    0.426 | f1    0.875 | 
