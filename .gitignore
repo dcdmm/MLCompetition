@@ -13,13 +13,14 @@
 /tianchi_NewsTextClassification/datasets/
 /kaggle_CommonLitReadabilityPrize/datasets/
 /kaggle_FeedbackPrize_EvaluatingStudentWriting/datasets/
+/kaggle_FeedbackPrize_ EnglishLanguageLearning/datasets/
 
 # 天池新闻文本分类相关文件
 /tianchi_NewsTextClassification/trains/fasttext/train_fasttext.csv
 /tianchi_NewsTextClassification/data/csv_to_trainTxt/trainTxt_pretrain_model.txt
 /tianchi_NewsTextClassification/trains/PretrainedRoberta_base_HuggingFace/save_model/
 
-# kaggle CommonLitReadabilityPrize相关文件
+# kaggle CommonLit Readability Prize相关文件
 /kaggle_CommonLitReadabilityPrize/trains/继续训练预训练模型_albert-xxlarge-v2/save_model/
 /kaggle_CommonLitReadabilityPrize/trains/继续训练预训练模型_roberta-large/save_model/
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model3.bin
@@ -28,5 +29,7 @@
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model2.bin
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model4.bin
 
-# kaggle FeedbackPrize_EvaluatingStudentWriting相关文件
+# kaggle FeedbackPrize - Evaluating StudentWriting相关文件
 /kaggle_FeedbackPrize_EvaluatingStudentWriting/data/alltrain_texts.pkl
+
+# kaggle FeedbackPrize - English Language Learning相关文件
