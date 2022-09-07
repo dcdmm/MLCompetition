@@ -12,8 +12,6 @@
 # 比赛的数据文件(储存位置:百度网盘)
 /tianchi_NewsTextClassification/datasets/
 /kaggle_CommonLitReadabilityPrize/datasets/
-### 部分处理后的数据
-/didi_EstimatedTimeOfArrival/datasets/
 /kaggle_FeedbackPrize_EvaluatingStudentWriting/datasets/
 
 # 天池新闻文本分类相关文件
@@ -30,4 +28,5 @@
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model2.bin
 /kaggle_CommonLitReadabilityPrize/trains/albert_mlm_cv_train/model4.bin
 
-
+# kaggle FeedbackPrize_EvaluatingStudentWriting相关文件
+/kaggle_FeedbackPrize_EvaluatingStudentWriting/data/alltrain_texts.pkl
