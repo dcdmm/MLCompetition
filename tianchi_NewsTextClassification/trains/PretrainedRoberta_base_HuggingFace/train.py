@@ -52,7 +52,7 @@ training_args = TrainingArguments(
     # max_steps=50,
     per_device_train_batch_size=16,
     save_strategy='epoch',
-    disable_tqdm=True
+    disable_tqdm=True  # 是否使用tqdm显示进度(.py运行时设置disable_tqdm=True)
 )
 
 trainer = Trainer(
