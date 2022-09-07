@@ -1,7 +1,7 @@
 ## 比赛
 
-### kaggle_CommonLitReadabilityPrize
+### kaggle CommonLit Readability Prize
 
-### kaggle_FeedbackPrize_EvaluatingStudentWriting
+### kaggle FeedbackPrize - Evaluating Student Writing
 
-#### tianchi_NewsTextClassification
+#### tianchi NewsTextClassification
