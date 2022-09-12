@@ -31,7 +31,9 @@ def set_seed(seed):
     torch.manual_seed(seed)  # CPU上设置随机种子
     if torch.cuda.is_available():
         torch.cuda.manual_seed(seed)  # 当前GPU上设置随机种子
-        # torch.cuda.manual_seed_all(seed) # 所有GPU上设置随机种\
+        # A bool that, if True, causes cuDNN to only use deterministic convolution algorithms.
+        torch.backends.cudnn.deterministic = True
+        # torch.cuda.manual_seed_all(seed) # 所有GPU上设置随机种子
 
 
 seed = 2022
