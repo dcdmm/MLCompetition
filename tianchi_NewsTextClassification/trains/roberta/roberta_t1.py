@@ -131,6 +131,14 @@ def get_parameters(model,
     parameters = []
     lr = encoder_layer_init_lr
 
+    # 自定义网络层:下游任务自定义的网络层(具体任务对应修改)
+    custom_params = {
+        'params': [param for name, param in model.named_parameters() if
+                   'linear1' in name or 'linear2' in name or 'norm' in name],
+        'lr': custom_lr
+    }
+    parameters.append(custom_params)
+
     # encoder层:
     # bert-larger共有24个encoder结构(分别为encoder.layer.0, encoder.layer.1, ......, encoder.layer.23)
     # bert-base共有12个encoder结构(分别为encoder.layer.0, encoder.layer.1, ......, encoder.layer.11)
@@ -142,14 +150,13 @@ def get_parameters(model,
         parameters.append(layer_params)
         lr *= multiplier  # 上个encoder结构的学习率 = 该encoder结构的学习率 * 衰退因子
 
-    # 自定义网络层:下游任务自定义的网络层(具体任务对应修改)
-    custom_params = {
-        'params': [param for name, param in model.named_parameters() if
-                   'linear1' in name or 'linear2' in name or 'norm' in name],
-        'lr': custom_lr
+    # embedding层:bert模型embedding层(最底层)
+    embeddings_params = {
+        'params': [param for name, param in model.named_parameters() if 'pretrained.embeddings' in name],  # 关键字in表示是否包含
+        'lr': 1e-10
     }
-    parameters.append(custom_params)
-    return parameters  # 这里bert模型的embedding层未加入优化器(即不参与梯度更新)
+    parameters.append(embeddings_params)
+    return parameters
 
 
 parameters = get_parameters(model, 2e-5, 0.95, 1e-4)
