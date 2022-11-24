@@ -1,4 +1,4 @@
-# %%
+#%%
 
 import copy
 import torch.nn as nn
@@ -22,14 +22,13 @@ sys.path.append(os.path.abspath(".." + os.sep + ".." + os.sep + ".."))
 
 from tianchi_NewsTextClassification.data.roberta_data_precess import Dataset, get_collate_fn
 
-# %%
+#%%
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(lineno)d - %(message)s ',
                     filename='rt1.log')
 
-
-# %%
+#%%
 
 def set_seed(seed):
     """PyTorch随机数种子设置大全"""
@@ -46,12 +45,12 @@ def set_seed(seed):
 seed = 2022
 set_seed(seed)
 
-# %%
+#%%
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(msg="device:" + str(device))
 
-# %%
+#%%
 
 tokenizer = AutoTokenizer.from_pretrained('../PretrainedRoberta_base_HuggingFace/save_model')
 config_update = AutoConfig.from_pretrained('../PretrainedRoberta_base_HuggingFace/save_model')
@@ -61,12 +60,12 @@ config_update.update({
 })
 pretrained = AutoModel.from_pretrained('../PretrainedRoberta_base_HuggingFace/save_model', config=config_update)
 
-# %%
+#%%
 
 train_set = pd.read_csv("../../datasets/train_set.csv", sep='\t')
 test_a = pd.read_csv('../../datasets/test_a.csv', sep='\t')
 
-# %%
+#%%
 
 dataset_test = Dataset(test_a, have_label=False)
 dataLoader_test = Data.DataLoader(dataset=dataset_test, batch_size=16, collate_fn=get_collate_fn(tokenizer))
@@ -75,8 +74,7 @@ dataset_train = Dataset(train_set, have_label=True)
 dataLoader_train = Data.DataLoader(dataset=dataset_train, shuffle=True, batch_size=16,
                                    collate_fn=get_collate_fn(tokenizer))
 
-
-# %%
+#%%
 
 class BertLastFour_MeanMaxPool(torch.nn.Module):
     """Bert最后四层隐藏层的连接 + [MeanPool, MaxPool](transformer实现训练过程)"""
@@ -113,16 +111,14 @@ class BertLastFour_MeanMaxPool(torch.nn.Module):
         result = self.linear2(result)
         return result
 
-
-# %%
+#%%
 
 # 损失函数
 criterion = torch.nn.CrossEntropyLoss()
 model = BertLastFour_MeanMaxPool(copy.deepcopy(pretrained))  # 必须进行深拷贝(pretrained(模型子网络结构)会参与梯度更新)
 model = model.to(device)  # 模型设备切换
 
-
-# %%
+#%%
 
 def get_parameters(model,
                    encoder_layer_init_lr=2e-5,  # bert模型最后一个encoder结构的学习率
@@ -163,8 +159,7 @@ parameters = get_parameters(model, 2e-5, 0.95, 1e-4)
 # 优化器
 optimizer = optim.AdamW(parameters)
 
-
-# %%
+#%%
 
 def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps):
     """
@@ -196,8 +191,7 @@ def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_st
 
 scheduler_lr = get_linear_schedule_with_warmup(optimizer, 0, len(dataLoader_train) * 10)
 
-
-# %%
+#%%
 
 class FGM():
     """Fast Gradient Sign Method"""
@@ -223,8 +217,7 @@ class FGM():
                 param.data = self.backup[name]  # 恢复embedding层原有参数值
         self.backup = {}
 
-
-# %%
+#%%
 
 # 模型训练
 def train(model, dataloader, criterion, optimizer, device):
@@ -263,8 +256,7 @@ def train(model, dataloader, criterion, optimizer, device):
             f1 = f1_score(labels.cpu().numpy(), predict, average='micro')  # 评估指标
             logging.info(msg='| step {:5d} | loss {:8.3f} | f1 {:8.3f} |'.format(idx, loss.item(), f1))
 
-
-# %%
+#%%
 
 # 模型预测
 def predict(model, dataloader, device):
@@ -286,8 +278,7 @@ def predict(model, dataloader, device):
     predict_all = torch.cat(predict_list, dim=0)  # 合并所有批次的预测结果
     return predict_all
 
-
-# %%
+#%%
 
 EPOCHS = 10
 
@@ -298,14 +289,14 @@ for epoch in range(1, EPOCHS + 1):
     logging.info(msg='| end of epoch {:5d} | time: {:5.2f}s |'.format(epoch, time.time() - epoch_start_time))
     logging.info(msg='-' * 37)
 
-# %%
+#%%
 
 
 result_pro = predict(model, dataLoader_test, device)
 joblib.dump(result_pro.numpy(), 'roberta_result_pro_t1.pkl')
 logging.info(msg="预测概率矩阵保存成功")
 
-# %%
+#%%
 
 pre_result_label = np.argmax(result_pro.numpy(), axis=1)
 pre_result_label = pd.DataFrame(pre_result_label, columns=['label'])

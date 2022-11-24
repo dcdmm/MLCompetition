@@ -1,4 +1,4 @@
-# %%
+#%%
 
 import torch
 import numpy as np
@@ -15,14 +15,13 @@ import copy
 import logging
 import joblib
 
-# %%
+#%%
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(lineno)d - %(message)s ',
                     filename='TextRNN.log')
 
-
-# %%
+#%%
 
 def set_seed(seed):
     """PyTorch随机数种子设置大全"""
@@ -39,17 +38,17 @@ def set_seed(seed):
 seed = 2022
 set_seed(seed)
 
-# %%
+#%%
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(msg="device:" + str(device))
 
-# %%
+#%%
 
 train_df = pd.read_csv('../../datasets/train_set.csv', sep='\t')
 test_df = pd.read_csv('../../datasets/test_a.csv', sep='\t')
 
-# %%
+#%%
 
 # 加载word2vec字典
 load_vocal = joblib.load('../../data/vocab/vocab_word2vec.pkl')
@@ -58,8 +57,7 @@ logging.info(msg=str(load_vocal.get_stoi().get('349', 0)))
 logging.info(msg=str(load_vocal.get_stoi().get('3113', 0)))
 logging.info(msg=str(load_vocal.get_stoi().get('4806', 0)))
 
-
-# %%
+#%%
 
 def split_truncate_pad(string,
                        num_steps,  # 句子最大长度
@@ -81,7 +79,7 @@ X_test_data = test_df['text'].apply(split_truncate_pad, num_steps=4000, stoi=loa
                                     padding_index=1)
 y_train = train_df['label'].values
 
-# %%
+#%%
 
 # 加载预训练词向量文件
 vector = torchtext.vocab.Vectors(name="cnew_300.txt",
@@ -90,8 +88,7 @@ vector = torchtext.vocab.Vectors(name="cnew_300.txt",
 pretrained_vector = vector.get_vecs_by_tokens(load_vocal.get_itos())
 logging.info(msg="pretrained_vector.shape:" + str(pretrained_vector.shape))
 
-
-# %%
+#%%
 
 class TextRNN_MeanMaxPool(nn.Module):
     """
@@ -155,8 +152,7 @@ class TextRNN_MeanMaxPool(nn.Module):
         result = self.linear2(result)
         return result
 
-
-# %%
+#%%
 
 def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps):
     """
@@ -185,8 +181,7 @@ def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_st
 
     return LambdaLR(optimizer, lr_lambda)
 
-
-# %%
+#%%
 
 class FGM():
     """Fast Gradient Sign Method"""
@@ -212,8 +207,7 @@ class FGM():
                 param.data = self.backup[name]  # 恢复embedding层原有参数值
         self.backup = {}
 
-
-# %%
+#%%
 
 # 模型训练
 def train(model, dataloader, criterion, optimizer, scheduler, device):
@@ -246,8 +240,7 @@ def train(model, dataloader, criterion, optimizer, scheduler, device):
             f1 = f1_score(labels.cpu().numpy(), predict, average='micro')
             logging.info(msg='| step {:5d} | loss {:8.3f} | f1 {:8.3f} |'.format(idx, loss.item(), f1))
 
-
-# %%
+#%%
 
 # 模型验证
 def evaluate(model, dataloader, device):
@@ -270,8 +263,7 @@ def evaluate(model, dataloader, device):
     f1 = f1_score(y_true_all.numpy(), predict_all.argmax(dim=1).numpy(), average='micro')  # 验证数据集f1 score
     return f1
 
-
-# %%
+#%%
 
 skfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)  # 5折分层交叉验证
 best_valid_f1_lst = []  # 每折交叉验证最佳模型验证数据集的f1 score
@@ -335,8 +327,7 @@ for fold, (trn_ind, val_ind) in enumerate(skfold.split(X_train_data, y_train)):
     best_valid_f1_lst.append(best_valid_f1)
     best_model_state_dict_lst.extend(best_model_state_dict)
 
-
-# %%
+#%%
 
 # 模型预测
 def predict(model, dataloader, device):
@@ -353,8 +344,7 @@ def predict(model, dataloader, device):
     predict_all = torch.cat(predict_list, dim=0)  # 合并所有批次的预测结果
     return predict_all
 
-
-# %%
+#%%
 
 dataset_te = Data.TensorDataset(torch.tensor(X_test_data.values.tolist()))
 dataloader_te = Data.DataLoader(dataset_te, 64)  # 测试数据集
@@ -384,17 +374,17 @@ for model_state_dict_i in best_model_state_dict_lst:
     result_pro += predict(net_i, dataloader_te, device) / skfold.n_splits
 logging.info(msg="result_pro.shape:" + str(result_pro.shape))
 
-# %%
+#%%
 
 joblib.dump(result_pro, 'rnn_result_pro.pkl')
 logging.info(msg="预测概率矩阵保存成功")
 
-# %%
+#%%
 
 pre_result_label = np.argmax(result_pro.cpu().numpy(), axis=1)
 pre_result_label = pd.DataFrame(pre_result_label, columns=['label'])
 
-# %%
+#%%
 
 pre_result_label.to_csv('../../predict_result/textrnn.csv', index=False)
 logging.info(msg="模型预测结束")

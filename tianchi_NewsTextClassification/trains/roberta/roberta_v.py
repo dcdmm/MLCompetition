@@ -1,4 +1,4 @@
-# %%
+#%%
 
 import torch.nn as nn
 import torch
@@ -22,14 +22,13 @@ sys.path.append(os.path.abspath(".." + os.sep + ".." + os.sep + ".."))
 
 from tianchi_NewsTextClassification.data.roberta_data_precess import Dataset, get_collate_fn
 
-# %%
+#%%
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(lineno)d - %(message)s ',
                     filename='rv.log')
 
-
-# %%
+#%%
 
 def set_seed(seed):
     """PyTorch随机数种子设置大全"""
@@ -46,12 +45,12 @@ def set_seed(seed):
 seed = 2022
 set_seed(seed)
 
-# %%
+#%%
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.info(msg="device:" + str(device))
 
-# %%
+#%%
 
 tokenizer = AutoTokenizer.from_pretrained('../PretrainedRoberta_base_HuggingFace/save_model')
 config_update = AutoConfig.from_pretrained('../PretrainedRoberta_base_HuggingFace/save_model')
@@ -61,12 +60,12 @@ config_update.update({
 })
 pretrained = AutoModel.from_pretrained('../PretrainedRoberta_base_HuggingFace/save_model', config=config_update)
 
-# %%
+#%%
 
 train_set = pd.read_csv("../../datasets/train_set.csv", sep='\t')
 train_dataset, vaild_dataset = train_test_split(train_set, test_size=0.25, random_state=seed)
 
-# %%
+#%%
 
 dataset_vaild = Dataset(vaild_dataset, have_label=True)
 dataLoader_vaild = Data.DataLoader(dataset=dataset_vaild, batch_size=16, collate_fn=get_collate_fn(tokenizer))
@@ -75,8 +74,7 @@ dataset_train = Dataset(train_dataset, have_label=True)
 dataLoader_train = Data.DataLoader(dataset=dataset_train, shuffle=True, batch_size=16,
                                    collate_fn=get_collate_fn(tokenizer))
 
-
-# %%
+#%%
 
 class BertLastFour_MeanMaxPool(torch.nn.Module):
     """Bert最后四层隐藏层的连接 + [MeanPool, MaxPool](transformer实现训练过程)"""
@@ -113,16 +111,14 @@ class BertLastFour_MeanMaxPool(torch.nn.Module):
         result = self.linear2(result)
         return result
 
-
-# %%
+#%%
 
 # 损失函数
 criterion = torch.nn.CrossEntropyLoss()
 model = BertLastFour_MeanMaxPool(copy.deepcopy(pretrained))  # 须进行深拷贝(pretrained(模型子网络结构)会参与梯度更新)
 model = model.to(device)  # 模型设备切换
 
-
-# %%
+#%%
 
 def get_parameters(model,
                    encoder_layer_init_lr=2e-5,  # bert模型最后一个encoder结构的学习率
@@ -163,8 +159,7 @@ parameters = get_parameters(model, 2e-5, 0.95, 1e-4)
 # 优化器
 optimizer = optim.AdamW(parameters)
 
-
-# %%
+#%%
 
 def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps):
     """
@@ -196,8 +191,7 @@ def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_st
 
 scheduler_lr = get_linear_schedule_with_warmup(optimizer, 0, len(dataLoader_train) * 10)
 
-
-# %%
+#%%
 
 # 模型训练
 def train(model, dataloader, criterion, optimizer, device):
@@ -224,8 +218,7 @@ def train(model, dataloader, criterion, optimizer, device):
             f1 = f1_score(labels.cpu().numpy(), predict, average='micro')  # 评估指标
             logging.info(msg='| step {:5d} | loss {:8.3f} | f1 {:8.3f} |'.format(idx, loss.item(), f1))
 
-
-# %%
+#%%
 
 # 模型验证
 def evaluate(model, dataloader, device):
@@ -252,8 +245,7 @@ def evaluate(model, dataloader, device):
     f1 = f1_score(y_true_all.numpy(), predict_all.argmax(dim=1).numpy(), average='micro')  # 评估指标
     return f1
 
-
-# %%
+#%%
 
 vaild_epoch_f1_list = []  # 验证数据集每个epoch的f1 score
 best_vaild_f1 = 0.0  # 最佳模型验证数据集的准确率
