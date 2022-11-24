@@ -11,6 +11,7 @@
 
 # 比赛的数据文件(储存位置:百度网盘)
 /tianchi_NewsTextClassification/datasets/
+/tianchi_MedicalSearchQueryRelevanceJudgment/datasets
 /kaggle_CommonLitReadabilityPrize/datasets/
 /kaggle_FeedbackPrize_EvaluatingStudentWriting/datasets/
 /kaggle_FeedbackPrize_ EnglishLanguageLearning/datasets/

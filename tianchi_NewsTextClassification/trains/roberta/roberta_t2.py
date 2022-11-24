@@ -20,7 +20,7 @@ import joblib
 # Linux下添加此代码(即添加临时模块搜索路径);当前项目路径为默认模块搜索路径(仅pycharm中)
 sys.path.append(os.path.abspath(".." + os.sep + ".." + os.sep + ".."))
 
-from tianchi_NewsTextClassification.data.roberta_data_precess import Dataset, get_collate_fn
+from tianchi_MedicalSearchQueryRelevanceJudgment import Dataset, get_collate_fn
 
 #%%
 
