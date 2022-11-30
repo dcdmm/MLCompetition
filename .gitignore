@@ -14,7 +14,6 @@
 /tianchi_MedicalSearchQueryRelevanceJudgment/datasets
 /kaggle_CommonLitReadabilityPrize/datasets/
 /kaggle_FeedbackPrize_EvaluatingStudentWriting/datasets/
-/kaggle_FeedbackPrize_ EnglishLanguageLearning/datasets/
 
 # 天池新闻文本分类相关文件
 /tianchi_NewsTextClassification/trains/fasttext/train_fasttext.csv
