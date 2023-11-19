@@ -1,4 +1,4 @@
-## 比赛
+## ML比赛
 
 ### kaggle CommonLit Readability Prize
 
