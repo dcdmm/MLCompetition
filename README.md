@@ -1,9 +1,9 @@
 # ML比赛
 
-### kaggle CommonLit Readability Prize
+### kaggle:CommonLit Readability Prize
 
-### kaggle FeedbackPrize - Evaluating Student Writing
+### kaggle:Feedback Prize - Evaluating Student Writing
 
-### tianchi edicalSearchQueryRelevanceJudgment
+### 天池:【NLP】医学搜索Query相关性判断
 
-### tianchi NewsTextClassification
+### 天池:零基础入门NLP - 新闻文本分类
