@@ -1,5 +1,3 @@
-# ML比赛合集
-
 ### kaggle:CommonLit Readability Prize
 
 ### kaggle:Feedback Prize - Evaluating Student Writing
