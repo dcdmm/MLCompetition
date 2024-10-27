@@ -3,7 +3,6 @@
 import torch
 import numpy as np
 import pandas as pd
-# TODO ★★★★torchtext已停止更新,请替换
 import torchtext
 import torch.nn as nn
 import torch.utils.data as Data
